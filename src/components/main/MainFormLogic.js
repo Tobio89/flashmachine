@@ -7,55 +7,57 @@ import dictResultParser from "./dictResultParser"
 
 export default function MainFormLogic() {
 
-    const [wordList, setWordList] = useState(['House'])
-    const [displayValue, setDisplayValue] = useState('House')
+    const [wordList, setWordList] = useState([])
+    const [displayValue, setDisplayValue] = useState('')
     const [searchResultWords, setSearchResultWords] = useState([])
     const [preventEntry, setPreventEntry] = useState(false)
 
     function makeRequestForWords() {
 
         console.log('Requesting...')
+        console.log(wordList)
 
         const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
         const naverRequestURLPrefix = 'https://en.dict.naver.com/api3/enko/search?query='
         const naverRequestURLSuffix = '&m=pc&range=all&shouldSearchVlive=true&lang=en'
 
-        setSearchResultWords([]) // Clear results
-        
-        for (let i = 0;i<wordList.length; i++) {
+        if (wordList === []) {
+            console.log('Empty Query Terms')
+        } else {
+       
+             // Clear results
+             setSearchResultWords([])
+            console.log('Confirm results are cleared:')
+            console.log(searchResultWords)
+            
+            for (let i = 0;i<wordList.length; i++) {
 
-            let word = wordList[i]
+                let word = wordList[i]
 
-            console.log(`Working on word '${word}...' `)
-            const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
+                console.log(`Working on word '${word}...' `)
+                const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
 
-            fetch(corsRequestURL)
-            .then(response => response.json())
-            .then(data => dictResultParser(data, word))
-            .then((result) => {
-                
-                const resultsToAdd = [...searchResultWords, result]
+                fetch(corsRequestURL)
+                .then(response => response.json())
+                .then(data => dictResultParser(data, word))
+                .then((result) => {
+                    
+                    // const resultsToAdd = [...searchResultWords, result]
 
-                setSearchResultWords(resultsToAdd)
+                    setSearchResultWords([result])
 
-            })
+                })
+            }
 
 
         }
         
 
-        
-
-
-        
-
-
-        
-
-
     }
 
     function handleWordEntry(event){
+
+        console.log('Word entry event triggered')
         const value = event.target.value
 
         const currentWordList = wordList
@@ -76,20 +78,6 @@ export default function MainFormLogic() {
             setDisplayValue(value)
     }
 }
-    
-
-    
-    // function handleChange(event){
-
-    //     const {name, value} = event.target
-    //     if (name === 'wordList') {
-    //         setWordList(value)
-    //     } 
-
-    // }
-
-
-
 
 
     return (
@@ -99,7 +87,7 @@ export default function MainFormLogic() {
                 handleChange={handleWordEntry} 
                 makeRequest={makeRequestForWords}    
             />
-            <FormResults results={searchResultWords} />
+            {searchResultWords && <FormResults results={searchResultWords} />}
         </div>
     )
 }

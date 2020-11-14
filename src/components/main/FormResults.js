@@ -2,6 +2,13 @@ import React from 'react'
 
 export default function FormResults(props) {
 
+    console.log('Display:')
+    console.log(props.results)
+
+
+
+
+
     const paragraphContent = props.results.map(item => {
 
         const itemSubArray = item.meanings
@@ -17,16 +24,14 @@ export default function FormResults(props) {
 
         })
 
-    return(
-        <div>
-            <h4>{item.queryWord}</h4>
+        return(
+            <div>
+                <h4>{item.queryWord}</h4>
+                <div>{displayedMeanings}</div>
+            </div>
 
-            <div>{displayedMeanings}</div>
-            
-
-        </div>
-
-    )})
+        )
+    })
     
 
     return (
