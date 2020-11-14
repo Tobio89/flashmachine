@@ -6,37 +6,42 @@ export default function FormResults(props) {
     console.log(props.results)
 
 
+    if (props.results) {
 
 
+        const paragraphContent = props.results.map(item => {
 
-    const paragraphContent = props.results.map(item => {
+            const itemSubArray = item.meanings
+            const displayedMeanings = itemSubArray.map(dicEntry => {
 
-        const itemSubArray = item.meanings
-        const displayedMeanings = itemSubArray.map(dicEntry => {
+                return (
+                <div>
 
-            return (
-            <div>
+                    <p>{dicEntry.meaning}</p>
 
-                <p>{dicEntry.meaning}</p>
+                </div>
+                )
 
-            </div>
+            })
+
+            return(
+                <div>
+                    <h4>{item.queryWord}</h4>
+                    <div>{displayedMeanings}</div>
+                </div>
+
             )
-
         })
+        
 
-        return(
+        return (
             <div>
-                <h4>{item.queryWord}</h4>
-                <div>{displayedMeanings}</div>
+                {paragraphContent}
             </div>
-
         )
-    })
-    
-
-    return (
-        <div>
-            {paragraphContent}
-        </div>
-    )
+    } else {
+        return (
+            <p>Search for words!</p>
+        )
+    }
 }

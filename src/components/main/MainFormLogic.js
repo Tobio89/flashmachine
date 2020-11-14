@@ -26,7 +26,6 @@ export default function MainFormLogic() {
         } else {
        
              // Clear results
-             setSearchResultWords([])
             console.log('Confirm results are cleared:')
             console.log(searchResultWords)
             
@@ -42,9 +41,9 @@ export default function MainFormLogic() {
                 .then(data => dictResultParser(data, word))
                 .then((result) => {
                     
-                    // const resultsToAdd = [...searchResultWords, result]
+                    const resultsToAdd = [...searchResultWords, result]
 
-                    setSearchResultWords([result])
+                    setSearchResultWords(resultsToAdd)
 
                 })
             }
@@ -87,7 +86,8 @@ export default function MainFormLogic() {
                 handleChange={handleWordEntry} 
                 makeRequest={makeRequestForWords}    
             />
-            {searchResultWords && <FormResults results={searchResultWords} />}
+            <button onClick={() => setSearchResultWords([])}>Click to clear</button>
+            <FormResults results={searchResultWords}/>
         </div>
     )
 }
