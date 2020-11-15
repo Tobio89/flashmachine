@@ -11,6 +11,7 @@ export default function MainFormLogic() {
     const [displayValue, setDisplayValue] = useState('')
     const [searchResultWords, setSearchResultWords] = useState([])
     const [preventEntry, setPreventEntry] = useState(false)
+    const [flashCardContents, setFlashCardContents] = useState([])
 
     function makeRequestForWords() {
 
@@ -40,19 +41,12 @@ export default function MainFormLogic() {
                 .then(response => response.json())
                 .then(data => dictResultParser(data, word))
                 .then((result) => {
-                    
                     const resultsToAdd = [...searchResultWords, result]
-
                     setSearchResultWords(resultsToAdd)
-
                 })
             }
-
-
-        }
-        
-
-    }
+        }   
+    } // End of makeRequestForWords
 
     function handleWordEntry(event){
 
