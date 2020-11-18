@@ -15,7 +15,7 @@ export default function MainFormLogic() {
 
     function makeRequestForWords() {
 
-        // setSearchResultWords(null)
+        setSearchResultWords(null)
 
 
         console.log('Requesting...')
@@ -38,7 +38,7 @@ export default function MainFormLogic() {
             fetch(requestURL).then(response => response.json())
             .then((data) => {
 
-                setSearchResultWords([...searchResultWords, ...data])
+                setSearchResultWords([...data])
 
             })
        
@@ -104,20 +104,23 @@ export default function MainFormLogic() {
     // }, [searchResultWords])
 
 
-    const resultsDisplayElements = searchResultWords.map(item => {
+    let resultsDisplayElements = null
+    if (searchResultWords) {
+        resultsDisplayElements = searchResultWords.map(item => {
 
-        const itemMeaningsArray = item.results.map(meaning => meaning.definition)
-        const itemMeaningsParagraph = itemMeaningsArray.join('\n')
-        
+            const itemMeaningsArray = item.results.map(meaning => meaning.definition)
+            const itemMeaningsParagraph = itemMeaningsArray.join('\n')
+            
 
-        return (
-            <div>
-                <h3>{item.queryWord}</h3>
-                <textarea value={itemMeaningsParagraph} />
-            </div>
-        )
+            return (
+                <div>
+                    <h3>{item.queryWord}</h3>
+                    <textarea value={itemMeaningsParagraph} />
+                </div>
+            )
 
-    })
+        })
+    }
 
 
     return (
