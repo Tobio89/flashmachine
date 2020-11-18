@@ -26,6 +26,9 @@ export default function MainFormDisplay(props) {
                 
                 />
                 <br/>
+                <label for='includeHanja'>Include Hanja if available</label>
+                <input type="checkbox" name="includeHanja" onChange={props.handleHanja}/>
+                <br/>
                 <button onClick={props.makeRequest}>Get Definitions</button>
 
 

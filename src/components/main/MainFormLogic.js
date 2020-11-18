@@ -3,13 +3,14 @@ import React, {useState, useEffect} from 'react'
 import MainFormDisplay from "./MainFormDisplay"
 // import FormResults from "./FormResults"
 
-import dictResultParser from "./dictResultParser"
+import makeParagraphContent from "./dictResultParser"
 
 export default function MainFormLogic() {
 
     const [wordList, setWordList] = useState([])
     const [displayValue, setDisplayValue] = useState('')
     const [searchResultWords, setSearchResultWords] = useState([])
+    const [includeHanja, setIncludeHanja] = useState(false)
     const [preventEntry, setPreventEntry] = useState(false)
     const [flashCardContents, setFlashCardContents] = useState([])
 
@@ -37,46 +38,20 @@ export default function MainFormLogic() {
             const requestURL = APIUrl + wordQueryString
             fetch(requestURL).then(response => response.json())
             .then((data) => {
-
+                
                 setSearchResultWords([...data])
 
+                const paragraphFormat = makeParagraphContent(data, includeHanja)
+                console.log(paragraphFormat)
+                setFlashCardContents(paragraphFormat)
             })
-       
-           
-            // for (let i = 0;i<wordList.length; i++) {
-
-            //     let word = wordList[i]
-
-            //     console.log(`Working on word '${word}...' `)
-            //     const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
-
-            //     // fetch(corsRequestURL)
-            //     // .then(response => response.json())
-            //     // .then(data => dictResultParser(data, word))
-            //     // .then((result) => {
-            //     //     const resultsToAdd = [...searchResultWords, result]
-            //     //     setSearchResultWords(resultsToAdd)
-            //     // })
-
-            //     async function fetchWordData() {
-            //         const response = await fetch(corsRequestURL);
-            //         const jsonifiedData = await response.json();
-            //         const parsedData = dictResultParser(jsonifiedData, word)
-            //         return parsedData;
-            //     }
-            //     fetchWordData().then((wordData) =>{
-            //         setSearchResultWords(null)
-            //         const resultsToAdd = [...searchResultWords, wordData]
-            //         setSearchResultWords(resultsToAdd)
-            //     })
-
-            //}//Endfor
+          
+ 
         }//Endif   
     } // End of makeRequestForWords
 
     function handleWordEntry(event){
 
-        console.log('Word entry event triggered')
         const value = event.target.value
 
         const currentWordList = wordList
@@ -95,8 +70,14 @@ export default function MainFormLogic() {
             setPreventEntry(false)
             setWordList(splitValue)
             setDisplayValue(value)
+        }
     }
-}
+
+    function handleHanja(event){
+
+        setIncludeHanja(event.target.checked)
+
+    }
     // useEffect(() => {
     //     console.log('Clear result elements')
     //     resultsDisplayElements = []
@@ -104,19 +85,24 @@ export default function MainFormLogic() {
     // }, [searchResultWords])
 
 
-    let resultsDisplayElements = null
-    if (searchResultWords) {
-        resultsDisplayElements = searchResultWords.map(item => {
+    let editableContents = null
+    if (flashCardContents) {
+        editableContents = flashCardContents.map(item => {
 
-            const itemMeaningsArray = item.results.map(meaning => meaning.definition)
-            const itemMeaningsParagraph = itemMeaningsArray.join('\n')
+            const key = Object.keys(item)[0]
             
+            const title = item[key].word
+            const paragraph = item[key].paragraph
 
+            
             return (
+
                 <div>
-                    <h3>{item.queryWord}</h3>
-                    <textarea value={itemMeaningsParagraph} />
+                    <h4>{title}</h4>
+                    <textarea name={title} value={paragraph}/>
+
                 </div>
+
             )
 
         })
@@ -128,10 +114,13 @@ export default function MainFormLogic() {
             <MainFormDisplay 
                 wordList={displayValue} 
                 handleChange={handleWordEntry} 
-                makeRequest={makeRequestForWords}    
+                makeRequest={makeRequestForWords} 
+                handleHanja={handleHanja}   
             />
+            
+            
 
-            {resultsDisplayElements}
+            {editableContents}
         </div>
     )
 }

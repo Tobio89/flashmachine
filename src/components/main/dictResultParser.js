@@ -167,4 +167,27 @@ function dictResultParser(data, queryWord) {
 
 }
 
-export default dictResultParser
+function makeParagraphContent(data, includeHanja){
+
+    let resultsDisplayElements = data.map(item => {
+
+        const itemMeaningsArray = item.results.map(meaning => {
+                            
+            if (includeHanja && meaning.hanja) {
+                return `${meaning.hanja}: ${meaning.definition}`
+            }
+            return meaning.definition
+        
+        })
+        const itemMeaningsParagraph = itemMeaningsArray.join('\n\n')
+        
+
+        return {[item.queryWord]:{word: item.queryWord, paragraph: itemMeaningsParagraph}}
+
+    })
+
+    return resultsDisplayElements
+
+}
+
+export default makeParagraphContent
