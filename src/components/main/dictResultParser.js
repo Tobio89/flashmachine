@@ -70,21 +70,19 @@ function reformatData(queryWord, trimmedObject, typeOfEntry) {
 
         for (let i = 0; i < entryDefinitionMeanings.length; i++) {
             let m = entryDefinitionMeanings[i]
-            let h = entry.associatedHanja[i]
+            // let h = entry.associatedHanja[i]
 
             entryMeaningsArray.push(
-                {
-                    type:typeOfEntry,
-                    meaning:m.value,
-                    example:m.exampleOri,
-                    exampleTranslation:m.exampleTrans,
-                    partOfSpeech: {
-                        english:entryPartOfSpeechENG,
-                        korean:entryPartOfSpeechKOR
-                    },
-                    // If h exists, and has an 'originLanguage', use it, else null.
-                    hanja: h? h.hasOwnProperty('originLanguage') ? h.originLanguage : null : null
-                }
+                m.value
+                // {
+                //     meaning:m.value,
+                //     partOfSpeech: {
+                //         english:entryPartOfSpeechENG,
+                //         korean:entryPartOfSpeechKOR
+                //     },
+                //     // // If h exists, and has an 'originLanguage', use it, else null.
+                //     // hanja: h? h.hasOwnProperty('originLanguage') ? h.originLanguage : null : null
+                // }
             )
         }
         // let assembledObject = {queryWord:queryWord, results:{entryMeaningsArray}}
@@ -104,37 +102,39 @@ function cleanEntries(queryWord, definitions) {
 
     definitions.forEach((item) => {
 
-        item.meaning = item.meaning.replace(regexKeys.matchHTML, '')
+        item= item.replace(regexKeys.matchHTML, '')
 
         if (regexKeys.matchKorean.test(queryWord)) { //If the query word is a  Korean word...
 
-            item.meaning = item.meaning.replace(regexKeys.matchKorean, '') // Remove the Korean from the meanings
+            item = item.replace(regexKeys.matchKorean, '') // Remove the Korean from the meanings
             
         } else {
             
-            item.meaning = item.meaning.replace(regexKeys.matchEnglish, '') // Remove the Korean from the meanings
+            item = item.replace(regexKeys.matchEnglish, '') // Remove the Korean from the meanings
 
         }
         // Regex processing
-        item.meaning = item.meaning.replace(regexKeys.cleanStart, '')
-        item.meaning = item.meaning.replace(regexKeys.trimSpaces, '')
-        item.meaning = item.meaning.replace(regexKeys.removeHiBullet, '')
-        item.meaning = item.meaning.replace(regexKeys.removeEndParen, '')
-        item.meaning = item.meaning.replace(regexKeys.doCommaSpace, ', ')
-        item.meaning = item.meaning.replace(regexKeys.cleanEnd, '')
+        item = item.replace(regexKeys.trimSpaces, '')
+        item = item.replace(regexKeys.cleanStart, '')
+        item = item.replace(regexKeys.removeHiBullet, '')
+        item = item.replace(regexKeys.removeEndParen, '')
+        item = item.replace(regexKeys.doCommaSpace, ', ')
+        item = item.replace(regexKeys.cleanEnd, '')
 
 
         
         //Capitalize
-        item.meaning = item.meaning.charAt(0).toUpperCase() + item.meaning.slice(1)
+        item = item.charAt(0).toUpperCase() + item.slice(1)
 
-        if (item.meaning) {
+        if (item) {
             result.push(item)
         }
 
     })
 
-    const assembledObject = {queryWord:queryWord, meanings:result}
+    let combinedString = result.join('\n')
+
+    const assembledObject = {queryWord:queryWord, meanings:combinedString}
     console.log(assembledObject)
     
     return assembledObject

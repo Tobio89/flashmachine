@@ -5,58 +5,38 @@ export default function FormResults(props) {
     if (props.results) {
 
 
-        // const paragraphContent = props.results.map(item => { // For each actual item...
-            
-        //     const itemSubArray = item.meanings
-        //     const displayedMeanings = itemSubArray.map(dicEntry => {
-
-        //         return (
-        //         <div>
-
-        //             <p>{dicEntry.meaning}</p>
-
-        //         </div>
-        //         )
-        //     })
-
-        //     return(
-        //         <div>
-        //             <h4>{item.queryWord}</h4>
-        //             <div>{displayedMeanings}</div>
-        //         </div>
-        //     )
-        // })
+       
         
-        // const textAreaComponents = []
+        const textAreaComponents = []
 
-        // for (let i=0; i<props.results.length;i++) {
+        for (let i=0; i<props.results.length;i++) {
 
-        //     let resultItem = props.results[i]
+            let resultItem = props.results[i]
 
-        //     let itemMeanings = []
+            let itemMeanings = []
 
-        //     resultItem.meanings.forEach(m => {
-        //         itemMeanings.push(m.meaning)
-        //     })
-
-
-        //     console.log(itemMeanings)
-
-        //     let valueString = itemMeanings.join('\n')
-
-        //     textAreaComponents.push(
-
-        //         <p><textarea name={i} value={valueString}
-        //         /></p>
-
-        //     )
+            resultItem.meanings.forEach(m => {
+                itemMeanings.push(m.meaning)
+            })
 
 
+            console.log(itemMeanings)
 
-        // }
-        // console.log(textAreaComponents)
+            let valueString = itemMeanings.join('\n')
 
-        })
+            textAreaComponents.push(
+
+                <p><textarea name={i} value={valueString}
+                /></p>
+
+            )
+
+
+
+        }
+        console.log(textAreaComponents)
+
+        }
 
 
         return (
@@ -68,4 +48,4 @@ export default function FormResults(props) {
         )
     }
 
-}
+

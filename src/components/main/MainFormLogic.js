@@ -1,7 +1,7 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 
 import MainFormDisplay from "./MainFormDisplay"
-import FormResults from "./FormResults"
+// import FormResults from "./FormResults"
 
 import dictResultParser from "./dictResultParser"
 
@@ -15,6 +15,9 @@ export default function MainFormLogic() {
 
     function makeRequestForWords() {
 
+        // setSearchResultWords(null)
+
+
         console.log('Requesting...')
         console.log(wordList)
 
@@ -26,10 +29,7 @@ export default function MainFormLogic() {
             console.log('Empty Query Terms')
         } else {
        
-             // Clear results
-            console.log('Confirm results are cleared:')
-            console.log(searchResultWords)
-            
+           
             for (let i = 0;i<wordList.length; i++) {
 
                 let word = wordList[i]
@@ -37,15 +37,28 @@ export default function MainFormLogic() {
                 console.log(`Working on word '${word}...' `)
                 const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
 
-                fetch(corsRequestURL)
-                .then(response => response.json())
-                .then(data => dictResultParser(data, word))
-                .then((result) => {
-                    const resultsToAdd = [...searchResultWords, result]
+                // fetch(corsRequestURL)
+                // .then(response => response.json())
+                // .then(data => dictResultParser(data, word))
+                // .then((result) => {
+                //     const resultsToAdd = [...searchResultWords, result]
+                //     setSearchResultWords(resultsToAdd)
+                // })
+
+                async function fetchWordData() {
+                    const response = await fetch(corsRequestURL);
+                    const jsonifiedData = await response.json();
+                    const parsedData = dictResultParser(jsonifiedData, word)
+                    return parsedData;
+                }
+                fetchWordData().then((wordData) =>{
+                    setSearchResultWords(null)
+                    const resultsToAdd = [...searchResultWords, wordData]
                     setSearchResultWords(resultsToAdd)
                 })
-            }
-        }   
+
+            }//Endfor
+        }//Endif   
     } // End of makeRequestForWords
 
     function handleWordEntry(event){
@@ -71,6 +84,23 @@ export default function MainFormLogic() {
             setDisplayValue(value)
     }
 }
+    // useEffect(() => {
+    //     console.log('Clear result elements')
+    //     resultsDisplayElements = []
+
+    // }, [searchResultWords])
+
+
+    const resultsDisplayElements = searchResultWords.map(item => {
+
+        return (
+            <div>
+                <h3>{item.queryWord}</h3>
+                <textarea value={item.meanings} />
+            </div>
+        )
+
+    })
 
 
     return (
@@ -80,8 +110,8 @@ export default function MainFormLogic() {
                 handleChange={handleWordEntry} 
                 makeRequest={makeRequestForWords}    
             />
-            <button onClick={() => setSearchResultWords([])}>Click to clear</button>
-            <FormResults results={searchResultWords}/>
+
+            {resultsDisplayElements}
         </div>
     )
 }
