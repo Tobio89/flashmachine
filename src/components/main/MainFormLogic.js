@@ -25,39 +25,52 @@ export default function MainFormLogic() {
         const naverRequestURLPrefix = 'https://en.dict.naver.com/api3/enko/search?query='
         const naverRequestURLSuffix = '&m=pc&range=all&shouldSearchVlive=true&lang=en'
 
+        const APIUrl = 'http://localhost:8000/words/'
+
         if (wordList === []) {
             console.log('Empty Query Terms')
         } else {
+
+            const wordQueryString = wordList.join('_')
+
+            console.log(wordQueryString)
+            const requestURL = APIUrl + wordQueryString
+            fetch(requestURL).then(response => response.json())
+            .then((data) => {
+
+                setSearchResultWords([...searchResultWords, ...data])
+
+            })
        
            
-            for (let i = 0;i<wordList.length; i++) {
+            // for (let i = 0;i<wordList.length; i++) {
 
-                let word = wordList[i]
+            //     let word = wordList[i]
 
-                console.log(`Working on word '${word}...' `)
-                const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
+            //     console.log(`Working on word '${word}...' `)
+            //     const corsRequestURL = proxyUrl +  naverRequestURLPrefix + word + naverRequestURLSuffix
 
-                // fetch(corsRequestURL)
-                // .then(response => response.json())
-                // .then(data => dictResultParser(data, word))
-                // .then((result) => {
-                //     const resultsToAdd = [...searchResultWords, result]
-                //     setSearchResultWords(resultsToAdd)
-                // })
+            //     // fetch(corsRequestURL)
+            //     // .then(response => response.json())
+            //     // .then(data => dictResultParser(data, word))
+            //     // .then((result) => {
+            //     //     const resultsToAdd = [...searchResultWords, result]
+            //     //     setSearchResultWords(resultsToAdd)
+            //     // })
 
-                async function fetchWordData() {
-                    const response = await fetch(corsRequestURL);
-                    const jsonifiedData = await response.json();
-                    const parsedData = dictResultParser(jsonifiedData, word)
-                    return parsedData;
-                }
-                fetchWordData().then((wordData) =>{
-                    setSearchResultWords(null)
-                    const resultsToAdd = [...searchResultWords, wordData]
-                    setSearchResultWords(resultsToAdd)
-                })
+            //     async function fetchWordData() {
+            //         const response = await fetch(corsRequestURL);
+            //         const jsonifiedData = await response.json();
+            //         const parsedData = dictResultParser(jsonifiedData, word)
+            //         return parsedData;
+            //     }
+            //     fetchWordData().then((wordData) =>{
+            //         setSearchResultWords(null)
+            //         const resultsToAdd = [...searchResultWords, wordData]
+            //         setSearchResultWords(resultsToAdd)
+            //     })
 
-            }//Endfor
+            //}//Endfor
         }//Endif   
     } // End of makeRequestForWords
 
@@ -93,10 +106,14 @@ export default function MainFormLogic() {
 
     const resultsDisplayElements = searchResultWords.map(item => {
 
+        const itemMeaningsArray = item.results.map(meaning => meaning.definition)
+        const itemMeaningsParagraph = itemMeaningsArray.join('\n')
+        
+
         return (
             <div>
                 <h3>{item.queryWord}</h3>
-                <textarea value={item.meanings} />
+                <textarea value={itemMeaningsParagraph} />
             </div>
         )
 
