@@ -78,6 +78,19 @@ export default function MainFormLogic() {
 
     }
 
+    function handleFlashEdit(event){
+        const {name, value} = event.target
+
+        let currentFlashContent = flashCardContents
+
+        const editedObject = {word:name, paragraph:value}
+
+        const updatedFlashContent = {...currentFlashContent, [name]:editedObject}
+
+        setFlashCardContents(updatedFlashContent)
+    }
+
+    // Display the flashcard contents
     let editableContents = null
     if (flashCardContents) {
 
@@ -89,14 +102,21 @@ export default function MainFormLogic() {
             return (
 
                 <div>
+
                     <h4>{flashCardContents[key].word}</h4>
-                    <textarea name={flashCardContents[key].word} value={flashCardContents[key].paragraph}/>
+
+                    <textarea 
+                        name={flashCardContents[key].word} 
+                        value={flashCardContents[key].paragraph}
+                        onChange={handleFlashEdit}
+                    />
 
                 </div>
 
             )
         })
-    }
+    } //Endif
+    //End of display contents section
 
 
     return (
