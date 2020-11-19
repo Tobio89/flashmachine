@@ -78,12 +78,6 @@ export default function MainFormLogic() {
         setIncludeHanja(event.target.checked)
 
     }
-    // useEffect(() => {
-    //     console.log('Clear result elements')
-    //     resultsDisplayElements = []
-
-    // }, [searchResultWords])
-
 
     let editableContents = null
     if (flashCardContents) {
