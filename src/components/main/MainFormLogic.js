@@ -95,10 +95,9 @@ export default function MainFormLogic() {
     if (flashCardContents) {
 
         const keys = Object.keys(flashCardContents)
-        console.log(keys)
+
         editableContents = keys.map(key => {
 
-            console.log(flashCardContents[key].paragraph) 
             return (
 
                 <div>
