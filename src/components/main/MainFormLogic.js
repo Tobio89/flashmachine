@@ -34,14 +34,13 @@ export default function MainFormLogic() {
 
             const wordQueryString = wordList.join('_')
 
-            console.log(wordQueryString)
             const requestURL = APIUrl + wordQueryString
             fetch(requestURL).then(response => response.json())
             .then((data) => {
                 
                 setSearchResultWords([...data])
 
-                const paragraphFormat = makeParagraphContent(data, includeHanja)
+                const paragraphFormat = makeParagraphContent(data, includeHanja) //Returns an object 
                 console.log(paragraphFormat)
                 setFlashCardContents(paragraphFormat)
             })
@@ -81,24 +80,21 @@ export default function MainFormLogic() {
 
     let editableContents = null
     if (flashCardContents) {
-        editableContents = flashCardContents.map(item => {
 
-            const key = Object.keys(item)[0]
-            
-            const title = item[key].word
-            const paragraph = item[key].paragraph
+        const keys = Object.keys(flashCardContents)
+        console.log(keys)
+        editableContents = keys.map(key => {
 
-            
+            console.log(flashCardContents[key].paragraph) 
             return (
 
                 <div>
-                    <h4>{title}</h4>
-                    <textarea name={title} value={paragraph}/>
+                    <h4>{flashCardContents[key].word}</h4>
+                    <textarea name={flashCardContents[key].word} value={flashCardContents[key].paragraph}/>
 
                 </div>
 
             )
-
         })
     }
 

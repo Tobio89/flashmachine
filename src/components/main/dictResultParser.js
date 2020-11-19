@@ -169,7 +169,9 @@ function dictResultParser(data, queryWord) {
 
 function makeParagraphContent(data, includeHanja){
 
-    let resultsDisplayElements = data.map(item => {
+    let resultObject = {}
+
+    data.map(item => {
 
         const itemMeaningsArray = item.results.map(meaning => {
                             
@@ -181,12 +183,11 @@ function makeParagraphContent(data, includeHanja){
         })
         const itemMeaningsParagraph = itemMeaningsArray.join('\n\n')
         
-
-        return {[item.queryWord]:{word: item.queryWord, paragraph: itemMeaningsParagraph}}
+        resultObject[item.queryWord] = {word: item.queryWord, paragraph: itemMeaningsParagraph}
 
     })
 
-    return resultsDisplayElements
+    return resultObject //This returns an object where each word is matched with its paragraph.
 
 }
 
