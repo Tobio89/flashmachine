@@ -2,23 +2,14 @@ import React from 'react'
 
 export default function MainFormDisplay(props) {
 
-    function splitToParagraph(wordList){
-
-        const wordListArray = wordList.split('\n')
-
-        const paragraphs = wordListArray.map(word => <p key={word}>{word}</p>)
-
-        return paragraphs
-    }
-
     return (
-        <div>
+        <div className="word-entry-section">
 
 
-                {/* <div>{splitToParagraph(props.wordList)}</div> */}
+                <h3>Your Word List:</h3>
 
                 <textarea 
-
+                    className="word-entry-box"
                     value={props.wordList}
                     name="wordList"
                     placeholder="Add vocab words here!"

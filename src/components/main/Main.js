@@ -4,10 +4,8 @@ import MainFormLogic from "./MainFormLogic"
 
 export default function Main() {
     return (
-        <div>
-            <p>This is the business part of Flashmachine</p>
-            <p>There will be forms here</p>
-
+        <div className="outer-container">
+            <p>Enter words below:</p>
             <MainFormLogic/>
         </div>
     )

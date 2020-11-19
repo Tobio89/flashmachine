@@ -3,7 +3,7 @@ import React from 'react'
 export default function header() {
     return (
         <div>
-            <h1>FlashMachine Head</h1>
+            <h1 className="flash-header">FlashMachine</h1>
         </div>
     )
 }

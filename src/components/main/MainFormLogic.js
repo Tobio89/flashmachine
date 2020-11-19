@@ -100,11 +100,12 @@ export default function MainFormLogic() {
 
             return (
 
-                <div>
+                <div className="flash-cell">
 
-                    <h4>{flashCardContents[key].word}</h4>
+                    <p className="flash-title">{flashCardContents[key].word}</p>
 
                     <textarea 
+                        className="flash-edit-box"
                         name={flashCardContents[key].word} 
                         value={flashCardContents[key].paragraph}
                         onChange={handleFlashEdit}
@@ -119,8 +120,8 @@ export default function MainFormLogic() {
 
 
     return (
-        <div>
-            <MainFormDisplay 
+        <div className="word-form-container">
+            <MainFormDisplay
                 wordList={displayValue} 
                 handleChange={handleWordEntry} 
                 makeRequest={makeRequestForWords} 
@@ -128,8 +129,9 @@ export default function MainFormLogic() {
             />
             
             
-
-            {editableContents}
+            <div className="flash-content-section">
+                {editableContents}
+            </div>
         </div>
     )
 }
