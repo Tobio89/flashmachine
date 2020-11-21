@@ -16,12 +16,16 @@ export default function MainFormDisplay(props) {
                     onChange={props.handleChange}
                 
                 />
-                <br/>
-                <label for='includeHanja'>Include Hanja if available</label>
-                <input type="checkbox" name="includeHanja" onChange={props.handleHanja}/>
-                <br/>
-                <button onClick={props.makeRequest}>Get Definitions</button>
 
+                <p className="hanja-checkbox-p">
+                    
+                    <input type="checkbox" name="includeHanja" onChange={props.handleHanja}/>
+                    <label for='includeHanja'>Include Hanja if available</label>
+
+                </p>
+                <p className="button-p">
+                    <button onClick={props.makeRequest}>Get Definitions</button>
+                </p>
 
 
         </div>

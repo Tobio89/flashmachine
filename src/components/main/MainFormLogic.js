@@ -118,9 +118,9 @@ export default function MainFormLogic() {
     } //Endif
     //End of display contents section
 
-
+    console.log(editableContents)
     return (
-        <div className="word-form-container">
+        <div className="inner-container">
             <MainFormDisplay
                 wordList={displayValue} 
                 handleChange={handleWordEntry} 
@@ -130,7 +130,13 @@ export default function MainFormLogic() {
             
             
             <div className="flash-content-section">
-                {editableContents}
+                <h3>
+                    Your flashcard contents:
+                </h3>
+                    {
+                    editableContents.length > 0 ? editableContents :
+                    <p>Enter words above!</p>
+                    }
             </div>
         </div>
     )
