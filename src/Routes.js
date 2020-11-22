@@ -9,7 +9,7 @@ import HowTo from "./components/howTo/HowTo"
 
 export default function Routes() {
     return (
-        <div>
+        <div className="route-container">
 
             <Switch>
 

@@ -90,6 +90,21 @@ export default function MainFormLogic() {
         setFlashCardContents(updatedFlashContent)
     }
 
+    function makeTextFile () {
+        const element = document.createElement("a");
+
+        const fileContents = 'Imagine there were flashcard contents here' 
+        // Add a function here to turn the flashcardcontents stuff into anki-format cards.
+
+        const file = new Blob([fileContents], {type: 'text/plain'});
+        element.href = URL.createObjectURL(file);
+        element.download = "anki_flashcards.txt";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
+      }
+
+
+
     // Display the flashcard contents
     let editableContents = null
     if (flashCardContents) {
@@ -130,13 +145,24 @@ export default function MainFormLogic() {
             
             
             <div className="flash-content-section">
-                <h3>
-                    Your flashcard contents:
-                </h3>
-                    {
-                    editableContents.length > 0 ? editableContents :
-                    <p>Enter words above!</p>
-                    }
+
+                {
+                    editableContents.length > 0 ? 
+                        <div> 
+                            <h3>
+                                Your flashcard contents:
+                            </h3>
+                            {editableContents} 
+                            <p>
+                                <button onClick={makeTextFile}>Download Flashcards</button>
+                            </p>
+                        </div>
+
+                        : // Else
+
+                        <p>Enter words above!</p>
+                }
+                
             </div>
         </div>
     )

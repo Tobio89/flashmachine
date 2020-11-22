@@ -6,6 +6,7 @@ import Routes from "./Routes"
 
 import Header from "./components/metacomponents/Header"
 import Navbar from "./components/metacomponents/Navbar"
+import Footer from "./components/metacomponents/Footer"
 
 
 function App() {
@@ -16,7 +17,8 @@ function App() {
         <Header />
 
         <Routes/>
-              
+        
+        <Footer/>  
       </div>
     </Router>
   );
