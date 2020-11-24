@@ -20,7 +20,7 @@ export default function MainFormDisplay(props) {
                 <p className="hanja-checkbox-p">
                     
                     <input type="checkbox" name="includeHanja" onChange={props.handleHanja}/>
-                    <label for='includeHanja'>Include Hanja if available</label>
+                    <label htmlFor='includeHanja'>Include Hanja if available</label>
 
                 </p>
                 <p className="button-p">

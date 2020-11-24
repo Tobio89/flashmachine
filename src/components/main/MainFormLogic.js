@@ -41,6 +41,7 @@ export default function MainFormLogic() {
                 setSearchResultWords([...data])
 
                 const paragraphFormat = makeParagraphContent(data, includeHanja) //Returns an object 
+                console.log('Received the following:')
                 console.log(paragraphFormat)
                 setFlashCardContents(paragraphFormat)
             })
@@ -91,19 +92,38 @@ export default function MainFormLogic() {
     }
 
     function makeTextFile () {
+
+        const flashcardString = makeFlashcardString()
+
         const element = document.createElement("a");
 
-        const fileContents = 'Imagine there were flashcard contents here' 
-        // Add a function here to turn the flashcardcontents stuff into anki-format cards.
-
-        const file = new Blob([fileContents], {type: 'text/plain'});
+        const file = new Blob([flashcardString], {type: 'text/plain'});
         element.href = URL.createObjectURL(file);
         element.download = "anki_flashcards.txt";
         document.body.appendChild(element); // Required for this to work in FireFox
         element.click();
       }
 
+    function makeFlashcardString() {
 
+        const keys = Object.keys(flashCardContents)
+
+        const paragraphsArray = keys.map(key => {
+
+            const word = flashCardContents[key].word
+            let paragraph = flashCardContents[key].paragraph
+
+
+            paragraph = paragraph.replace(/"/g,'""')
+
+            return `${word};"${paragraph}"`
+        })
+
+        const flashcardString = paragraphsArray.join('\n')
+        
+        return flashcardString
+
+    }
 
     // Display the flashcard contents
     let editableContents = null
@@ -115,7 +135,7 @@ export default function MainFormLogic() {
 
             return (
 
-                <div className="flash-cell">
+                <div className="flash-cell" key={key}>
 
                     <p className="flash-title">{flashCardContents[key].word}</p>
 
@@ -133,7 +153,6 @@ export default function MainFormLogic() {
     } //Endif
     //End of display contents section
 
-    console.log(editableContents)
     return (
         <div className="inner-container">
             <MainFormDisplay
