@@ -13,7 +13,7 @@ export default function About() {
                 </div>
                 <br/>
                 <div>
-                    <h3>About the creator:</h3>
+                    <h3>About the Creator:</h3>
                     <p>Tobias S is an ESL Teacher/tutor living in South Korea.</p>
                     <p>He is developing web applications in his free time, in order to break into the programming industry.</p>
                     <p>He has an M.A in Animation and a B.A in Multimedia</p>

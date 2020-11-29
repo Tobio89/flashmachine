@@ -9,7 +9,7 @@ export default function MainFormDisplay(props) {
                 <h3>Your Word List:</h3>
 
                 <textarea 
-                    className="word-entry-box"
+                    className="word-entry-box input-box"
                     value={props.wordList}
                     name="wordList"
                     placeholder="Add vocab words here!"

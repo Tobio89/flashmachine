@@ -70,8 +70,20 @@ textarea {
   padding:5px;
   border:2px solid black;
   background-color: transparent;
+  resize:none;
+  outline:none;
+}
+textarea:focus {
+  border:3px solid;
 }
 
+button {
+  color:white;
+  background-color: var(--main-color);
+  border-radius: 10px;
+  border:none;
+  padding:5px;
+}
 .about-cell{
   display:block;
   padding:20px;
@@ -86,6 +98,31 @@ textarea {
 }
 .how-to-list li {
   padding:5px;
+}
+
+.contact-form {
+  padding:30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.input-box {
+  width:70vw;
+}
+.help-box{
+  padding:5px;
+  margin: 10px;
+  border:1px solid black;
+  border-radius:10px;
+}
+.help-box-large {
+  min-height:200px;
+}
+
+.help-button {
+  width:100px;
+  margin:5px;
 }
 
 .outer-container{
@@ -109,7 +146,6 @@ textarea {
 }
 .word-entry-box{
   height:300px;
-  width:70vw;
   resize: none;
 }
 .hanja-checkbox-p{
@@ -148,7 +184,6 @@ textarea {
 }
 .flash-edit-box{
   /* background: white; */
-  width:70vw;
   height:350px;
   resize:none;
   margin:5px 0px 30px;
@@ -157,9 +192,10 @@ textarea {
 
 @media only screen and (min-width: 800px){
 
-  .flash-edit-box {
+  .input-box {
     width:30vw;
   }
+  
   .word-entry-box {
     width:30vw;
   }

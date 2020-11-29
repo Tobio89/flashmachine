@@ -22,20 +22,21 @@ export default function MainFormLogic() {
         console.log('Requesting...')
         console.log(wordList)
 
-        const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
-        const naverRequestURLPrefix = 'https://en.dict.naver.com/api3/enko/search?query='
-        const naverRequestURLSuffix = '&m=pc&range=all&shouldSearchVlive=true&lang=en'
+        // const proxyUrl = 'https://cors-anywhere.herokuapp.com/'
+        // const naverRequestURLPrefix = 'https://en.dict.naver.com/api3/enko/search?query='
+        // const naverRequestURLSuffix = '&m=pc&range=all&shouldSearchVlive=true&lang=en'
 
-        const APIUrl = 'http://localhost:8000/words/'
+        const APIUrl = 'http://localhost:8000/request_words/'
 
         if (wordList === []) {
             console.log('Empty Query Terms')
         } else {
 
-            const wordQueryString = wordList.join('_')
+            const wordQuery = {
+                word_array : wordList
+            }
 
-            const requestURL = APIUrl + wordQueryString
-            fetch(requestURL).then(response => response.json())
+            fetch(APIUrl, {method:'post', body:JSON.stringify(wordQuery)}).then(response => response.json())
             .then((data) => {
                 
                 setSearchResultWords([...data])
@@ -44,6 +45,7 @@ export default function MainFormLogic() {
                 console.log('Received the following:')
                 console.log(paragraphFormat)
                 setFlashCardContents(paragraphFormat)
+            }).catch(error => {console.log(error)
             })
           
  
@@ -125,6 +127,26 @@ export default function MainFormLogic() {
 
     }
 
+    // useEffect to put word list into browser storage
+    useEffect(() => {
+        return () => {
+            // const joinedWordList = wordList.join('%%')
+            localStorage.setItem('wordList', wordList)
+        }
+    }, [wordList])
+
+    // useEffect to retrieve word list from browser storage
+    useEffect(() => {
+        const localWordList = localStorage.getItem('wordList')
+        console.log(localWordList)
+        let splitLocalWordList = localWordList.split(',')
+        splitLocalWordList = splitLocalWordList.filter(w => w !== '')
+
+        setWordList(splitLocalWordList)
+        const displayWordList = localWordList.replace(/,/g, '\n')
+        setDisplayValue(displayWordList)
+    }, [])
+
     // Display the flashcard contents
     let editableContents = null
     if (flashCardContents) {
@@ -140,7 +162,7 @@ export default function MainFormLogic() {
                     <p className="flash-title">{flashCardContents[key].word}</p>
 
                     <textarea 
-                        className="flash-edit-box"
+                        className="flash-edit-box input-box"
                         name={flashCardContents[key].word} 
                         value={flashCardContents[key].paragraph}
                         onChange={handleFlashEdit}
@@ -153,10 +175,13 @@ export default function MainFormLogic() {
     } //Endif
     //End of display contents section
 
+    
+
     return (
         <div className="inner-container">
             <MainFormDisplay
                 wordList={displayValue} 
+                preventEntry={preventEntry}
                 handleChange={handleWordEntry} 
                 makeRequest={makeRequestForWords} 
                 handleHanja={handleHanja}   

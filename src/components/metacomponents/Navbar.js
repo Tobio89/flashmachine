@@ -10,7 +10,7 @@ export default function Navbar() {
             </NavLink>
 
             <NavLink to="/HowTo">
-                How To Use
+                Help!
             </NavLink>
 
             <NavLink to="/About">
