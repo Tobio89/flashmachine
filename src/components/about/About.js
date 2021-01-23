@@ -14,10 +14,9 @@ export default function About() {
                 <br/>
                 <div>
                     <h3>About the Creator:</h3>
-                    <p>Tobias S is an ESL Teacher/tutor living in South Korea.</p>
-                    <p>He is developing web applications in his free time, in order to break into the programming industry.</p>
+                    <p>Tobias S is working as a Front End developer for a blockchain company, since Dec 2020.</p>
                     <p>He has an M.A in Animation and a B.A in Multimedia</p>
-                    <p>He has been teaching in Korea for 5 years, and is now married and has a son who is incredibly cute.</p>
+                    <p>He was an English teacher in Korea for 5 years. He is married and has a son who is incredibly cute.</p>
                     <p>He likes 90's video games, coffee, and long walks outdoors.</p>
                     <hr/>
                     <h4>Other Projects</h4>
