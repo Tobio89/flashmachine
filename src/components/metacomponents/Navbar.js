@@ -1,6 +1,9 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
+
+import {SignInOut} from "../main/SignInOut"
+
 export default function Navbar() {
     return (
         <nav className="nav-bar">
@@ -16,7 +19,9 @@ export default function Navbar() {
             <NavLink to="/About">
                 About
             </NavLink>
-        
+
+            <SignInOut/>
+
         </nav>
     )
 }
